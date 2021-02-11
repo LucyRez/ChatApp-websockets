@@ -38,6 +38,7 @@ final class SocketIOManager: ObservableObject{
             print("Connected")
             self.socket?.emit("Server Event", "Hi NODEJS server!")
         }
+    
     }
     
     /// Function implements disconnections from the server
@@ -48,5 +49,16 @@ final class SocketIOManager: ObservableObject{
     /// Function sends a message to the server by triggering chatMessage event
     func sendMessage(text: String){
         socket?.emit("chatMessage", text);
+    }
+    
+    func getMessages(completionHandler: @escaping ([String: Any]) -> Void){
+        socket?.on("newMessage"){data, _ in
+            var messageDictionary: [String:Any] = [:]
+            
+            messageDictionary["message"] = data[0] as! String
+            messageDictionary["time"] = data[1] as! String
+            
+            completionHandler(messageDictionary)
+        }
     }
 }

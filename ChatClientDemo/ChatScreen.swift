@@ -38,6 +38,18 @@ struct ChatScreen: View{
         }
     }
     
+    func startGettingMessages(){
+        manager.getMessages(completionHandler: {data in
+            
+            let messageText = data["message"] as! String
+            let time = data["time"] as! String
+            
+            let message = MessageData(message: messageText, time: time)
+            
+            print(message);
+        })
+    }
+    
     var body: some View {
         VStack{
             // Here are going to be messages
@@ -61,6 +73,7 @@ struct ChatScreen: View{
             .padding()
         }
         .onAppear(perform: onAppear)
+        .onAppear(perform: startGettingMessages)
         .onDisappear(perform: onDisappear)
     }
 }

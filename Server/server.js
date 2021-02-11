@@ -28,6 +28,8 @@ io.sockets.on('connection', function(socket){
   // Server gets the new message sent by client
   socket.on('chatMessage', function(message){
     console.log(message);
+    var dateTime = new Date().toLocaleString();
+    io.emit('newMessage', message, dateTime);
   });
 
 });
