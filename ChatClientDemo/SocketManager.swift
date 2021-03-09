@@ -8,6 +8,10 @@
 import Foundation
 import SocketIO
 
+enum DateError: String, Error {
+    case invalidDate
+}
+
 /**
  This class implements all the interaction with server by using websokets.
  
@@ -20,10 +24,11 @@ import SocketIO
  
  */
 final class SocketIOManager: ObservableObject{
+    
     // manager listens to certain porton localhost
     private var manager = SocketManager(socketURL: URL(string: "ws://localhost:3000")!, config: [.log(true), .compress])
     var socket: SocketIOClient? = nil // here lies socket for certain client
-    @Published var messages = [String]() // array of messages
+    
     
     /// Function initializes socket and sets all the events
     func setSocket(){
@@ -38,7 +43,7 @@ final class SocketIOManager: ObservableObject{
             print("Connected")
             self.socket?.emit("Server Event", "Hi NODEJS server!")
         }
-    
+        
     }
     
     /// Function implements disconnections from the server
@@ -48,17 +53,52 @@ final class SocketIOManager: ObservableObject{
     
     /// Function sends a message to the server by triggering chatMessage event
     func sendMessage(text: String){
-        socket?.emit("chatMessage", text);
+        let message = SubmittedMessage(message: text)
+        
+        guard let json = try? JSONEncoder().encode(message),
+              let jsonString = String(data: json, encoding: .utf8)
+        else{
+            return
+        }
+        socket?.emit("chatMessage", String(jsonString))
     }
     
-    func getMessages(completionHandler: @escaping ([String: Any]) -> Void){
-        socket?.on("newMessage"){data, _ in
-            var messageDictionary: [String:Any] = [:]
+    func getMessages(completionHandler: @escaping (ReceivedMessage) -> Void){
+        socket?.on("newMessage"){data, ack in
             
-            messageDictionary["message"] = data[0] as! String
-            messageDictionary["time"] = data[1] as! String
+            var message : ReceivedMessage?
             
-            completionHandler(messageDictionary)
+            if let jsonData  = try? JSONSerialization.data(withJSONObject: data.first!, options: []){
+                do{
+                    let decoder = JSONDecoder()
+                    
+                    let formatter = DateFormatter()
+                    formatter.calendar = Calendar(identifier: .iso8601)
+                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+                    
+                    decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
+                        let container = try decoder.singleValueContainer()
+                        let dateStr = try container.decode(String.self)
+                        
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+                        if let date = formatter.date(from: dateStr) {
+                            return date
+                        }
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+                        if let date = formatter.date(from: dateStr) {
+                            return date
+                        }
+                        return Date().addingTimeInterval(86400) // TODO throw something
+                    })
+                    
+                    message = try! decoder.decode(ReceivedMessage.self, from: jsonData)
+                    //self.messages.append(message)
+                }
+            }
+            
+            completionHandler(message!)
         }
     }
 }
+

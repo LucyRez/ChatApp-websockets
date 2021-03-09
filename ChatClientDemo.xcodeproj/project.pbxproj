@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4DA4114D96B2D85AA4353F0A /* Pods_ChatClientDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6FA879D3418B6830443A95B /* Pods_ChatClientDemo.framework */; };
+		DB5E7A5A25F81CA40075D220 /* SingleMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E7A5925F81CA40075D220 /* SingleMessageView.swift */; };
 		DB98BA2525CDB27B00457239 /* ChatClientDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98BA2425CDB27B00457239 /* ChatClientDemoApp.swift */; };
 		DB98BA2725CDB27B00457239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98BA2625CDB27B00457239 /* ContentView.swift */; };
 		DB98BA2925CDB28700457239 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB98BA2825CDB28700457239 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		C6FA879D3418B6830443A95B /* Pods_ChatClientDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatClientDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB5E7A5925F81CA40075D220 /* SingleMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleMessageView.swift; sourceTree = "<group>"; };
 		DB98BA2125CDB27B00457239 /* ChatClientDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatClientDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB98BA2425CDB27B00457239 /* ChatClientDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClientDemoApp.swift; sourceTree = "<group>"; };
 		DB98BA2625CDB27B00457239 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		DB5E7A5825F81C740075D220 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DB98BA3D25D08D1E00457239 /* ChatScreen.swift */,
+				DB5E7A5925F81CA40075D220 /* SingleMessageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		DB98BA1825CDB27B00457239 = {
 			isa = PBXGroup;
 			children = (
@@ -82,10 +93,10 @@
 		DB98BA2325CDB27B00457239 /* ChatClientDemo */ = {
 			isa = PBXGroup;
 			children = (
+				DB5E7A5825F81C740075D220 /* Views */,
 				DB98BA2425CDB27B00457239 /* ChatClientDemoApp.swift */,
 				DB98BA2625CDB27B00457239 /* ContentView.swift */,
 				DB98BA4025D0949800457239 /* SocketManager.swift */,
-				DB98BA3D25D08D1E00457239 /* ChatScreen.swift */,
 				DB98BA4525D5DA4E00457239 /* MessageModel.swift */,
 				DB98BA2825CDB28700457239 /* Assets.xcassets */,
 				DB98BA2D25CDB28700457239 /* Info.plist */,
@@ -215,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB5E7A5A25F81CA40075D220 /* SingleMessageView.swift in Sources */,
 				DB98BA4625D5DA4E00457239 /* MessageModel.swift in Sources */,
 				DB98BA2725CDB27B00457239 /* ContentView.swift in Sources */,
 				DB98BA2525CDB27B00457239 /* ChatClientDemoApp.swift in Sources */,

@@ -15,10 +15,12 @@ import SwiftUI
  # Notes: #
  1. Work in progress
  
-*/
+ */
 struct ChatScreen: View{
     @State private var message = "" // message from text field
     @StateObject private var manager = SocketIOManager() // socket io manager
+    // Array of received messages.
+    @State private var messages: [ReceivedMessage] = []
     
     /// This function connects chat with socket at the start of application
     func onAppear(){
@@ -40,13 +42,7 @@ struct ChatScreen: View{
     
     func startGettingMessages(){
         manager.getMessages(completionHandler: {data in
-            
-            let messageText = data["message"] as! String
-            let time = data["time"] as! String
-            
-            let message = MessageData(message: messageText, time: time)
-            
-            print(message);
+            messages.append(data)
         })
     }
     
@@ -54,10 +50,20 @@ struct ChatScreen: View{
         VStack{
             // Here are going to be messages
             ScrollView{
+                
+                
+                ForEach(messages, id: \.id){mes in
+                    HStack{
+                        SingleMessageView(text: mes.message, date: mes.date)
+                        
+                    }
+                    
+                }
             }
             
-            // HStack keeps ui elements from the bottom of the screen (text field and button)
+            // HStack keeps UI elements from the bottom of the screen (text field and button)
             HStack{
+                
                 TextField("Message", text: $message)
                     .padding(10)
                     .background(Color.secondary.opacity(0.2))

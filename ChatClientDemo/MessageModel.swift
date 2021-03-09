@@ -7,7 +7,14 @@
 
 import Foundation
 
-struct MessageData{
-    let message: String
-    let time: String
+struct SubmittedMessage : Encodable{
+    let message : String
 }
+
+struct ReceivedMessage : Decodable{
+    let date : Date
+    let id = UUID()
+    let message : String
+}
+
+

@@ -1,5 +1,6 @@
 const { measureMemory } = require('vm');
 
+var mergeJSON = require("merge-json") ;
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -27,9 +28,13 @@ io.sockets.on('connection', function(socket){
 
   // Server gets the new message sent by client
   socket.on('chatMessage', function(message){
-    console.log(message);
-    var dateTime = new Date().toLocaleString();
-    io.emit('newMessage', message, dateTime);
+    let clientMessage = JSON.parse(message);
+    var dateTime = JSON.stringify({date:(new Date()).toISOString()});
+    var dateJSON = JSON.parse(dateTime);
+
+    var result = mergeJSON.merge(clientMessage,dateJSON);
+    console.log(result);
+    io.emit('newMessage', result);
   });
 
 });
