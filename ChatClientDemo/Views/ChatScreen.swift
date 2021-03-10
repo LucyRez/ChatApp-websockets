@@ -42,7 +42,7 @@ struct ChatScreen: View{
     
     func startGettingMessages(){
         manager.getMessages(completionHandler: {data in
-            messages.append(data)
+            messages = data
         })
     }
     
@@ -50,16 +50,27 @@ struct ChatScreen: View{
         VStack{
             // Here are going to be messages
             ScrollView{
+                ScrollViewReader{val in
+                    VStack{
                 
-                
-                ForEach(messages, id: \.id){mes in
-                    HStack{
-                        SingleMessageView(text: mes.message, date: mes.date)
-                        
-                    }
+                        ForEach(messages, id: \.id){mes in
+                            HStack{
+                                SingleMessageView(text: mes.message, date: mes.date)
+                                
+                            }.id(mes.id)
+                    
+                        }
+                    
+                    }.onChange(of: messages, perform: {value in
+                        DispatchQueue.main.async {
+                            val.scrollTo(messages[messages.endIndex-1].id, anchor: .bottom)
+                        }
+                    });
                     
                 }
+                
             }
+            
             
             // HStack keeps UI elements from the bottom of the screen (text field and button)
             HStack{
@@ -81,6 +92,7 @@ struct ChatScreen: View{
         .onAppear(perform: onAppear)
         .onAppear(perform: startGettingMessages)
         .onDisappear(perform: onDisappear)
+        .padding()
     }
 }
 

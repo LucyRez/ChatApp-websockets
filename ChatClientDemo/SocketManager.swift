@@ -63,10 +63,12 @@ final class SocketIOManager: ObservableObject{
         socket?.emit("chatMessage", String(jsonString))
     }
     
-    func getMessages(completionHandler: @escaping (ReceivedMessage) -> Void){
+    func getMessages(completionHandler: @escaping ([ReceivedMessage]) -> Void){
+        var messages : [ReceivedMessage] = []
+        
         socket?.on("newMessage"){data, ack in
             
-            var message : ReceivedMessage?
+               // var message : ReceivedMessage?
             
             if let jsonData  = try? JSONSerialization.data(withJSONObject: data.first!, options: []){
                 do{
@@ -92,12 +94,12 @@ final class SocketIOManager: ObservableObject{
                         return Date().addingTimeInterval(86400) // TODO throw something
                     })
                     
-                    message = try! decoder.decode(ReceivedMessage.self, from: jsonData)
-                    //self.messages.append(message)
+                    messages = try! decoder.decode([ReceivedMessage].self, from: jsonData)
+                    //messages.append(message!)
                 }
             }
             
-            completionHandler(message!)
+            completionHandler(messages)
         }
     }
 }

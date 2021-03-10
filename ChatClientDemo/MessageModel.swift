@@ -11,7 +11,7 @@ struct SubmittedMessage : Encodable{
     let message : String
 }
 
-struct ReceivedMessage : Decodable{
+struct ReceivedMessage : Decodable, Equatable{
     let date : Date
     let id = UUID()
     let message : String
