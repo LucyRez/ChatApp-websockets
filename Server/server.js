@@ -21,15 +21,10 @@ MongoClient.connect(url, function(err, db) {
     var chat = db.db('chat');
     collection = chat.collection('messageHistory');
 
-    // chat.createCollection('messageHistory', function(err, res){
-    //   if (err) throw err;
-    //   console.log("Collection created!");
-    // });
-
     chat.collection('messageHistory').find({}).toArray(function(err,res){
       if(err) throw err;
       console.log(res);
-      socket.emit('newMessage', res);
+      socket.emit('messageHistory', res);
     });
 
     // Welcome new user
@@ -62,13 +57,13 @@ MongoClient.connect(url, function(err, db) {
         
       });
 
-      //io.emit('newMessage', result);
+      io.emit('newMessage', result);
 
-      chat.collection('messageHistory').find({}).toArray(function(err,res){
-        if(err) throw err;
-        console.log(res);
-        io.emit('newMessage', res);
-      });
+      // chat.collection('messageHistory').find({}).toArray(function(err,res){
+      //   if(err) throw err;
+      //   console.log(res);
+      //   io.emit('newMessage', res);
+      // });
 
     });
 
