@@ -52,8 +52,8 @@ final class SocketIOManager: ObservableObject{
     }
     
     /// Function sends a message to the server by triggering chatMessage event
-    func sendMessage(text: String){
-        let message = SubmittedMessage(message: text)
+    func sendMessage(text: String, user: String){
+        let message = SubmittedMessage(message: text, nickname: user )
         
         guard let json = try? JSONEncoder().encode(message),
               let jsonString = String(data: json, encoding: .utf8)
@@ -66,7 +66,7 @@ final class SocketIOManager: ObservableObject{
     func getMessages(completionHandler: @escaping ([ReceivedMessage]) -> Void){
         var messages : [ReceivedMessage] = []
         
-        socket?.on("newMessage"){data, ack in
+        socket?.on("messageHistory"){data, ack in
             
                // var message : ReceivedMessage?
             
@@ -100,6 +100,43 @@ final class SocketIOManager: ObservableObject{
             }
             
             completionHandler(messages)
+        }
+    }
+    
+    func getLastMessage(completionHandler: @escaping (ReceivedMessage) -> Void){
+        var message : ReceivedMessage?
+        
+        socket?.on("newMessage"){data, ack in
+            
+            if let jsonData  = try? JSONSerialization.data(withJSONObject: data.first!, options: []){
+                do{
+                    let decoder = JSONDecoder()
+                    
+                    let formatter = DateFormatter()
+                    formatter.calendar = Calendar(identifier: .iso8601)
+                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+                    
+                    decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
+                        let container = try decoder.singleValueContainer()
+                        let dateStr = try container.decode(String.self)
+                        
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+                        if let date = formatter.date(from: dateStr) {
+                            return date
+                        }
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+                        if let date = formatter.date(from: dateStr) {
+                            return date
+                        }
+                        return Date().addingTimeInterval(86400) // TODO throw something
+                    })
+                    
+                    message = try! decoder.decode(ReceivedMessage.self, from: jsonData)
+                }
+            }
+            
+            completionHandler(message!)
         }
     }
 }

@@ -9,11 +9,13 @@ import Foundation
 
 struct SubmittedMessage : Encodable{
     let message : String
+    let nickname : String
 }
 
 struct ReceivedMessage : Decodable, Equatable{
     let date : Date
     let id = UUID()
+    let nickname : String
     let message : String
 }
 

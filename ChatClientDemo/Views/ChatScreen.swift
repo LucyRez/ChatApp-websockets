@@ -17,6 +17,9 @@ import SwiftUI
  
  */
 struct ChatScreen: View{
+    
+    let nickname : String = "NyanCat*_*"
+    
     @State private var message = "" // message from text field
     @StateObject private var manager = SocketIOManager() // socket io manager
     // Array of received messages.
@@ -35,7 +38,7 @@ struct ChatScreen: View{
     /// Function initializes sending of message to server
     private func onSend(){
         if !message.isEmpty {
-            manager.sendMessage(text: message)
+            manager.sendMessage(text: message, user: nickname)
             message = ""
         }
     }
@@ -43,6 +46,10 @@ struct ChatScreen: View{
     func startGettingMessages(){
         manager.getMessages(completionHandler: {data in
             messages = data
+        })
+        
+        manager.getLastMessage(completionHandler: {data in
+            messages.append(data)
         })
     }
     
@@ -55,7 +62,7 @@ struct ChatScreen: View{
                 
                         ForEach(messages, id: \.id){mes in
                             HStack{
-                                SingleMessageView(text: mes.message, date: mes.date)
+                                SingleMessageView(text: mes.message, nickname: mes.nickname, date: mes.date, isCurrentUser: (mes.nickname == nickname))
                                 
                             }.id(mes.id)
                     
