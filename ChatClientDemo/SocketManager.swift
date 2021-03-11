@@ -25,6 +25,9 @@ enum DateError: String, Error {
  */
 final class SocketIOManager: ObservableObject{
     
+    @Published var justOpened : Bool = false
+    @Published var nickname : String = ""
+    
     // manager listens to certain porton localhost
     private var manager = SocketManager(socketURL: URL(string: "ws://localhost:3000")!, config: [.log(true), .compress])
     var socket: SocketIOClient? = nil // here lies socket for certain client

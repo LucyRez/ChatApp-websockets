@@ -16,6 +16,7 @@
 		DB98BA3E25D08D1E00457239 /* ChatScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98BA3D25D08D1E00457239 /* ChatScreen.swift */; };
 		DB98BA4125D0949800457239 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98BA4025D0949800457239 /* SocketManager.swift */; };
 		DB98BA4625D5DA4E00457239 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98BA4525D5DA4E00457239 /* MessageModel.swift */; };
+		DBD6501325FA6C4E00125448 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD6501225FA6C4E00125448 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		DB98BA3D25D08D1E00457239 /* ChatScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScreen.swift; sourceTree = "<group>"; };
 		DB98BA4025D0949800457239 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		DB98BA4525D5DA4E00457239 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		DBD6501225FA6C4E00125448 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		ED81597CD51DC1B144D2F8EA /* Pods-ChatClientDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatClientDemo.debug.xcconfig"; path = "Target Support Files/Pods-ChatClientDemo/Pods-ChatClientDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		FDB6E5BE43F5D2D641123FE2 /* Pods-ChatClientDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatClientDemo.release.xcconfig"; path = "Target Support Files/Pods-ChatClientDemo/Pods-ChatClientDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +70,7 @@
 			children = (
 				DB98BA3D25D08D1E00457239 /* ChatScreen.swift */,
 				DB5E7A5925F81CA40075D220 /* SingleMessageView.swift */,
+				DBD6501225FA6C4E00125448 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB5E7A5A25F81CA40075D220 /* SingleMessageView.swift in Sources */,
+				DBD6501325FA6C4E00125448 /* LoginView.swift in Sources */,
 				DB98BA4625D5DA4E00457239 /* MessageModel.swift in Sources */,
 				DB98BA2725CDB27B00457239 /* ContentView.swift in Sources */,
 				DB98BA2525CDB27B00457239 /* ChatClientDemoApp.swift in Sources */,

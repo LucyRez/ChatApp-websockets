@@ -18,10 +18,10 @@ import SwiftUI
  */
 struct ChatScreen: View{
     
-    let nickname : String = "NyanCat*_*"
     
+    //@State var justOpened : Bool = true
     @State private var message = "" // message from text field
-    @StateObject private var manager = SocketIOManager() // socket io manager
+    private var manager : SocketIOManager // socket io manager
     // Array of received messages.
     @State private var messages: [ReceivedMessage] = []
     
@@ -38,7 +38,7 @@ struct ChatScreen: View{
     /// Function initializes sending of message to server
     private func onSend(){
         if !message.isEmpty {
-            manager.sendMessage(text: message, user: nickname)
+            manager.sendMessage(text: message, user: manager.nickname)
             message = ""
         }
     }
@@ -53,28 +53,32 @@ struct ChatScreen: View{
         })
     }
     
+    init(socketManager : SocketIOManager) {
+        self.manager = socketManager
+    }
+    
     var body: some View {
         VStack{
             // Here are going to be messages
             ScrollView{
                 ScrollViewReader{val in
                     VStack{
-                
+                        
                         ForEach(messages, id: \.id){mes in
                             HStack{
-                                SingleMessageView(text: mes.message, nickname: mes.nickname, date: mes.date, isCurrentUser: (mes.nickname == nickname))
+                                SingleMessageView(text: mes.message, nickname: mes.nickname, date: mes.date, isCurrentUser: (mes.nickname == manager.nickname))
                                 
                             }.id(mes.id)
-                    
+                            
                         }
-                    
+                        
                     }.onChange(of: messages, perform: {value in
                         DispatchQueue.main.async {
                             val.scrollTo(messages[messages.endIndex-1].id, anchor: .bottom)
                         }
                     });
                     
-                }
+                } 
                 
             }
             
@@ -103,10 +107,10 @@ struct ChatScreen: View{
     }
 }
 
-struct ChatScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatScreen()
-    }
-}
+//struct ChatScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatScreen()
+//    }
+//}
 
 
