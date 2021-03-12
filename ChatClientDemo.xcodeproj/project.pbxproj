@@ -96,11 +96,11 @@
 		DB98BA2325CDB27B00457239 /* ChatClientDemo */ = {
 			isa = PBXGroup;
 			children = (
+				DBD6501625FB4E9000125448 /* Models */,
 				DB5E7A5825F81C740075D220 /* Views */,
 				DB98BA2425CDB27B00457239 /* ChatClientDemoApp.swift */,
 				DB98BA2625CDB27B00457239 /* ContentView.swift */,
 				DB98BA4025D0949800457239 /* SocketManager.swift */,
-				DB98BA4525D5DA4E00457239 /* MessageModel.swift */,
 				DB98BA2825CDB28700457239 /* Assets.xcassets */,
 				DB98BA2D25CDB28700457239 /* Info.plist */,
 				DB98BA2A25CDB28700457239 /* Preview Content */,
@@ -114,6 +114,14 @@
 				DB98BA2B25CDB28700457239 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DBD6501625FB4E9000125448 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DB98BA4525D5DA4E00457239 /* MessageModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

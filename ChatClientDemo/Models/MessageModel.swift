@@ -1,3 +1,4 @@
+
 //
 //  MessageModel.swift
 //  ChatClientDemo
@@ -7,11 +8,13 @@
 
 import Foundation
 
+// Модель для отправляемых сообщений.
 struct SubmittedMessage : Encodable{
     let message : String
     let nickname : String
 }
 
+// Модель для получаемых сообщений.
 struct ReceivedMessage : Decodable, Equatable{
     let date : Date
     let id = UUID()

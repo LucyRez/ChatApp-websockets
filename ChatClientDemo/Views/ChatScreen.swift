@@ -8,34 +8,28 @@
 import SwiftUI
 
 /**
- Screen of the chat (one conversation)
- 
- - returns: a view of the chat
- 
- # Notes: #
- 1. Work in progress
- 
+ Экран общего чата.
+ - returns: view для чата
  */
 struct ChatScreen: View{
     
+    @State private var message = "" // Сообщение из текстового поля.
+    private var manager : SocketIOManager // socket io менеджер.
     
-    //@State var justOpened : Bool = true
-    @State private var message = "" // message from text field
-    private var manager : SocketIOManager // socket io manager
-    // Array of received messages.
+    // Массив полученных сообщений.
     @State private var messages: [ReceivedMessage] = []
     
-    /// This function connects chat with socket at the start of application
+    // Функция подключает чат к вебсокетам при запуске чата.
     func onAppear(){
         manager.setSocket()
     }
     
-    /// This function disconnects app from server after closing
+    // Функция отключает приложение от сервера при закрытии.
     func onDisappear(){
         manager.disconnect()
     }
     
-    /// Function initializes sending of message to server
+    // Функция инициализирует отправку сообщения на сервер.
     private func onSend(){
         if !message.isEmpty {
             manager.sendMessage(text: message, user: manager.nickname)
@@ -43,23 +37,27 @@ struct ChatScreen: View{
         }
     }
     
+    // Функция отвечает за получение сообщений клиентом при запуске и далее.
     func startGettingMessages(){
+        // При запуске получаем всю историю сообщений.
         manager.getMessages(completionHandler: {data in
             messages = data
         })
         
+        // Далее получаем сообщения по одному.
         manager.getLastMessage(completionHandler: {data in
             messages.append(data)
         })
     }
     
+    // Инициализатор для текущего экрана.
     init(socketManager : SocketIOManager) {
-        self.manager = socketManager
+        self.manager = socketManager // Сокет-менеджер полученный от стартового экрана.
     }
     
     var body: some View {
         VStack{
-            // Here are going to be messages
+            // Здесь отображаются все сообщения.
             ScrollView{
                 ScrollViewReader{val in
                     VStack{
@@ -74,16 +72,13 @@ struct ChatScreen: View{
                         
                     }.onChange(of: messages, perform: {value in
                         DispatchQueue.main.async {
-                            val.scrollTo(messages[messages.endIndex-1].id, anchor: .bottom)
+                            val.scrollTo(messages[messages.endIndex-1].id, anchor: .bottom) // Авто скролл к концу массива сообщений.
                         }
                     });
-                    
-                } 
-                
+                }
             }
             
-            
-            // HStack keeps UI elements from the bottom of the screen (text field and button)
+            // HStack содержит UI элементы отвечающие за отправку сообщения (текстовое поле и кнопка).
             HStack{
                 
                 TextField("Message", text: $message)
@@ -99,18 +94,14 @@ struct ChatScreen: View{
                 .disabled(message.isEmpty)
             }
             .padding()
+            
         }
-        .onAppear(perform: onAppear)
-        .onAppear(perform: startGettingMessages)
-        .onDisappear(perform: onDisappear)
+        .onAppear(perform: onAppear) // При появлении экрана чата подключаемся к серверу.
+        .onAppear(perform: startGettingMessages) // Начинаем получать все сообщения.
+        .onDisappear(perform: onDisappear) // При выходе отключаемя от сервера.
         .padding()
     }
 }
 
-//struct ChatScreen_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChatScreen()
-//    }
-//}
 
 

@@ -8,13 +8,17 @@
 import Foundation
 import SwiftUI
 
+/**
+ View для отображения одного сообщения.
+ */
 struct SingleMessageView : View{
     
-    var text : String
-    var nickname : String
-    var date : Date
-    var isCurrentUser : Bool
+    var text : String // Текст сообщения.
+    var nickname : String // Имя пользователя.
+    var date : Date // Дата и время отправки.
+    var isCurrentUser : Bool // Является ли отправитель текущим пользователем.
     
+    // Инициализатор для сообщения.
     init(text: String, nickname: String, date: Date, isCurrentUser: Bool) {
         self.text = text
         self.date = date
@@ -25,12 +29,13 @@ struct SingleMessageView : View{
     var body: some View{
         VStack{
             HStack{
+                // Располагаем сообщение по правому краю, если отправитель - текущий пользователь.
                 if(isCurrentUser){
                     Spacer()
                 }
                 
-                
                 VStack{
+                    // Для других пользователей устанавливаем их имена над текстом сообщений.
                     if(!isCurrentUser){
                         HStack{
                             Text(nickname)
@@ -42,6 +47,7 @@ struct SingleMessageView : View{
                         }
                     }
                     
+                    // Цвет и расположение текста сообщения меняется в зависимости от статуса пользователя.
                     HStack{
                         Text(text)
                             .padding(10)
@@ -52,17 +58,15 @@ struct SingleMessageView : View{
                         
                         if(!isCurrentUser){Spacer()}
                     }
-                    
-                    
                 }.fixedSize(horizontal: false, vertical: true)
                 
-                
+                // Располагаем сообщение по левому краю, если отправитель - не текущий пользователь.
                 if(!isCurrentUser){
                     Spacer()
                 }
             }
             
-            
+            // Отдельный стэк для того, чтобы расположить время отправки сообщения.
             HStack{
                 if(!isCurrentUser){
                     Text(date, style: .time)
@@ -76,10 +80,7 @@ struct SingleMessageView : View{
                         .foregroundColor(.gray)
                         .font(.system(size: 12))
                 }
-                
-                
             }
-            
         }.padding(10)
         
     }
