@@ -13,5 +13,5 @@ This is a demo version of the chat app.
 - Client gets all the message history on connection
 - User Interface using SwiftUI
 
-![Preview](https://media.giphy.com/media/aCLcenUvkNJr6tjLk3/giphy.gif "Preview")
+![Preview](https://media.giphy.com/media/oWoHfAliB7j1ZLaPBR/giphy.gif "Preview")
 
